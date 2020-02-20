@@ -9,24 +9,21 @@ class generator(tf.keras.Model):
     self.model = tf.keras.Sequential()
     self.model.add(layers.Dense(4 * 4 * 1024, use_bias=False, input_shape=noise_shape))
     self.model.add(layers.BatchNormalization())
-    self.model.add(layers.ReLU(0.2))
-    self.model.add(layers.Reshape((4, 4, 1024)))
+    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
 
-    self.model.add(layers.Conv2DTranspose(1024, (5, 5), strides=2, padding='same', use_bias=False))
-    self.model.add(layers.BatchNormalization())
-    self.model.add(layers.ReLU(0.2))
+    self.model.add(layers.Reshape((4, 4, 1024)))
 
     self.model.add(layers.Conv2DTranspose(512, (5, 5), strides=2, padding='same', use_bias=False))
     self.model.add(layers.BatchNormalization())
-    self.model.add(layers.ReLU(0.2))
+    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
 
     self.model.add(layers.Conv2DTranspose(256, (5, 5), strides=2, padding='same', use_bias=False))
     self.model.add(layers.BatchNormalization())
-    self.model.add(layers.ReLU(0.2))
+    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
 
     self.model.add(layers.Conv2DTranspose(128, (5, 5), strides=2, padding='same', use_bias=False))
     self.model.add(layers.BatchNormalization())
-    self.model.add(layers.ReLU(0.2))
+    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
 
     self.model.add(layers.Conv2DTranspose(3, (5, 5), strides=2, padding='same', use_bias=False))
     self.model.add(layers.Activation(activation='tanh'))
