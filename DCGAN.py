@@ -10,7 +10,6 @@ class generator(tf.keras.Model):
     self.model.add(layers.Dense(4 * 4 * 1024, use_bias=False, input_shape=noise_shape))
     self.model.add(layers.BatchNormalization())
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-
     self.model.add(layers.Reshape((4, 4, 1024)))
 
     self.model.add(layers.Conv2DTranspose(512, (5, 5), strides=2, padding='same', use_bias=False))
@@ -40,22 +39,22 @@ class discriminator(tf.keras.Model):
     self.model.add(tf.keras.layers.Conv2D(64, kernel_size=5, strides=2, input_shape=self.img_shape, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.8))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
+    self.model.add(tf.keras.layers.Dropout(0.25))
 
     self.model.add(tf.keras.layers.Conv2D(128, kernel_size=5, strides=2, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.8))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
+    self.model.add(tf.keras.layers.Dropout(0.25))
 
     self.model.add(tf.keras.layers.Conv2D(256, kernel_size=5, strides=2, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.8))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
+    self.model.add(tf.keras.layers.Dropout(0.25))
 
     self.model.add(tf.keras.layers.Conv2D(512, kernel_size=5, strides=2, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.8))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
+    self.model.add(tf.keras.layers.Dropout(0.25))
 
     self.model.add(tf.keras.layers.Flatten())
     self.model.add(tf.keras.layers.Dense(1))
