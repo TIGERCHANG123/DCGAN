@@ -1,5 +1,7 @@
 import tensorflow as tf
 
+#1. soft label
+#2. fake->1, real->0
 def discriminator_loss(real_output, fake_output):
     cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=False)
 

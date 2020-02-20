@@ -81,7 +81,7 @@ class draw:
   def show_created_pic(self, generator, pic_num, noise_dim):
     x = tf.convert_to_tensor(np.random.rand(pic_num, noise_dim))
     y = generator(x)
-    y = (y + 1) * 255
+    y = (y + 1) / 2 * 255
     y = tf.cast(y, tf.uint8)
     for i in range(pic_num):
       plt.subplot(1, pic_num, i + 1)
@@ -95,7 +95,7 @@ class draw:
     x = tf.convert_to_tensor(np.random.rand(pic_num, noise_dim))
     y = generator(x)
     y=tf.squeeze(y)
-    y = (y + 1) * 255
+    y = (y + 1) / 2 * 255
     y = tf.cast(y, tf.uint8)
     for i in range(pic_num):
       plt.imsave(self.generated_pic_path+'/{}_{}_{}.png'.format(self.train_time, epoch, i), y[i].numpy())
