@@ -5,10 +5,10 @@ import cv2
 
 class face_dataset():
     def __init__(self, root, batch_size):
-        self.file_path = root + '/datasets/face'
+        self.file_path = root + '/datasets/cartoon_face/faces'
         image_width = 64
         self.batch_size = batch_size
-        self.rate = image_width / 512
+        self.rate = image_width / 96
         self.file_list = os.listdir(self.file_path)
         self.name = 'cartoon_face'
     def generator(self):

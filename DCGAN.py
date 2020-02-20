@@ -38,22 +38,18 @@ class discriminator(tf.keras.Model):
 
     self.model.add(tf.keras.layers.Conv2D(64, kernel_size=5, strides=2, input_shape=self.img_shape, padding="same"))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
 
     self.model.add(tf.keras.layers.Conv2D(128, kernel_size=5, strides=2, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
 
     self.model.add(tf.keras.layers.Conv2D(256, kernel_size=5, strides=2, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
 
-    self.model.add(tf.keras.layers.Conv2D(512, kernel_size=5, strides=1, padding="same"))
+    self.model.add(tf.keras.layers.Conv2D(512, kernel_size=5, strides=2, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    # self.model.add(tf.keras.layers.Dropout(0.25))
 
     self.model.add(tf.keras.layers.Flatten())
     self.model.add(tf.keras.layers.Dense(1))
