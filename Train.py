@@ -21,8 +21,8 @@ class train_one_epoch():
         self.train_dataset = train_dataset
         self.noise_dim = noise_dim
     @tf.function(input_signature=[
-        tf.TensorSpec(shape=(None,128), dtype=tf.float64),
-        tf.TensorSpec(shape=(None, 28, 28, 1), dtype=tf.float64),
+        tf.TensorSpec(shape=(None,100), dtype=tf.float32),
+        tf.TensorSpec(shape=(None, 64, 64, 3), dtype=tf.float32),
     ])
     def train_step(self, noise, images):
         with tf.GradientTape() as gen_tape, tf.GradientTape() as disc_tape:
@@ -44,10 +44,8 @@ class train_one_epoch():
         self.gen_loss.reset_states()
         self.disc_loss.reset_states()
 
-        for (batch, (noise, images)) in enumerate(self.train_dataset):
+        for (batch, images) in enumerate(self.train_dataset):
             noise = tf.random.normal([images.shape[0], self.noise_dim])
-            noise = tf.cast(noise, tf.float64)
-            noise = tf.reshape(noise, [-1, noise.shape[-1]])
             self.train_step(noise, images)
             pic.add([self.gen_loss.result().numpy(), self.disc_loss.result().numpy()])
             pic.save()
