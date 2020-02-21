@@ -51,7 +51,7 @@ class discriminator(tf.keras.Model):
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
 
-    # self.model.add(tf.keras.layers.Conv2D(512, kernel_size=1, strides=1, padding="same"))
+    self.model.add(tf.keras.layers.Conv2D(512, kernel_size=1, strides=1, padding="same"))
 
     self.model.add(tf.keras.layers.Flatten())
     self.model.add(tf.keras.layers.Dense(1, activation='sigmoid'))

@@ -5,8 +5,8 @@ from DCGAN import get_gan
 from show_pic import draw
 from Train import train_one_epoch
 from cartoon_face import face_dataset
-from tensorflow.compat.v1 import ConfigProto
-from tensorflow.compat.v1 import InteractiveSession
+# from tensorflow.compat.v1 import ConfigProto
+# from tensorflow.compat.v1 import InteractiveSession
 
 ubuntu_root='/home/tigerc'
 windows_root='D:/Automatic/SRTP/GAN'
@@ -50,9 +50,9 @@ def main(continue_train, train_time):
     return
 
 if __name__ == '__main__':
-    config = ConfigProto()
-    config.gpu_options.allow_growth = True
-    session = InteractiveSession(config=config)
-    # tf.keras.backend.set_floatx('float64')
+    # config = ConfigProto()
+    # config.gpu_options.allow_growth = True
+    # session = InteractiveSession(config=config)
+    # # tf.keras.backend.set_floatx('float64')
 
     main(continue_train=False, train_time=0)
