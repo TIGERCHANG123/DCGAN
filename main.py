@@ -40,7 +40,7 @@ def main(continue_train, train_time):
     train = train_one_epoch(model=[generator_model, discriminator_model], train_dataset=train_dataset,
               optimizers=[generator_optimizer, discriminator_optimizer], metrics=[gen_loss, disc_loss], noise_dim=noise_dim)
 
-    for epoch in range(100):
+    for epoch in range(50):
         train.train(epoch=epoch, pic=pic)
         pic.show()
         if (epoch + 1) % 5 == 0:
@@ -55,4 +55,4 @@ if __name__ == '__main__':
     session = InteractiveSession(config=config)
     # tf.keras.backend.set_floatx('float64')
 
-    main(continue_train=True, train_time=1)
+    main(continue_train=False, train_time=0)
