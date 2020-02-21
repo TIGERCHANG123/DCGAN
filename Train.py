@@ -58,7 +58,7 @@ class train_one_epoch():
                 noise = tf.random.normal([images.shape[0], self.noise_dim])
                 self.train_discriminator_step(noise, images)
             else:
-                k = k + 1
+                k = 0
                 noise = tf.random.normal([images.shape[0], self.noise_dim])
                 self.train_discriminator_step(noise, images)
                 noise = tf.random.normal([images.shape[0], self.noise_dim])
