@@ -4,7 +4,6 @@ import tensorflow as tf
 #2. fake->1, real->0
 def discriminator_loss(real_output, fake_output):
     cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-
     real_loss = cross_entropy(tf.ones_like(real_output), real_output)
     fake_loss = cross_entropy(tf.zeros_like(fake_output), fake_output)
     total_loss = real_loss + fake_loss
@@ -12,7 +11,6 @@ def discriminator_loss(real_output, fake_output):
 
 def generator_loss(fake_output):
     cross_entropy = tf.keras.losses.BinaryCrossentropy(from_logits=False)
-
     return cross_entropy(tf.ones_like(fake_output), fake_output)
 
 class train_one_epoch():
@@ -46,7 +44,7 @@ class train_one_epoch():
         self.disc_loss.reset_states()
         k = 0
         for (batch, images) in enumerate(self.train_dataset):
-            if k < 4:
+            if k < 3:
                 k = k + 1
                 noise = tf.random.normal([images.shape[0], self.noise_dim])
                 self.train_discriminator_step(noise, images)
@@ -56,5 +54,5 @@ class train_one_epoch():
                 self.train_generator_step(noise)
                 pic.add([self.gen_loss.result().numpy(), self.disc_loss.result().numpy()])
                 pic.save()
-            if batch % 500 == 0:
+            if (batch + 1) % 500 == 0:
                 print('epoch: {}, gen loss: {}, disc loss: {}'.format(epoch, self.gen_loss.result(), self.disc_loss.result()))
