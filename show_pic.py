@@ -81,11 +81,12 @@ class draw:
   def show_created_pic(self, generator, pic_num, noise_dim):
     x = tf.convert_to_tensor(np.random.rand(pic_num, noise_dim))
     y = generator(x)
+    y = tf.squeeze(y)
     y = (y + 1) / 2 * 255
     y = tf.cast(y, tf.uint8)
     for i in range(pic_num):
       plt.subplot(1, pic_num, i + 1)
-      plt.imshow(y[i].numpy() / 255 - 0.5)
+      plt.imshow(y[i].numpy())
       plt.axis('off')
       plt.tight_layout()
     plt.show()
