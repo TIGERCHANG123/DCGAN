@@ -7,12 +7,12 @@ class generator(tf.keras.Model):
     self.noise_shape = noise_shape
 
     self.model = tf.keras.Sequential()
-    self.model.add(layers.Dense(7 * 7 * 512, use_bias=False, input_shape=noise_shape))
+    self.model.add(layers.Dense(8 * 8 * 512, use_bias=False, input_shape=noise_shape))
+    self.model.add(layers.Reshape((8, 8, 512)))
     self.model.add(layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.ReLU())
-    self.model.add(layers.Reshape((7, 7, 512)))
 
-    self.model.add(layers.Conv2DTranspose(256, (5, 5), strides=1, padding='same', use_bias=False))
+    self.model.add(layers.Conv2DTranspose(256, (5, 5), strides=2, padding='same', use_bias=False))
     self.model.add(layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.ReLU())
 
@@ -24,7 +24,7 @@ class generator(tf.keras.Model):
     self.model.add(layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.ReLU())
 
-    self.model.add(layers.Conv2DTranspose(1, (5, 5), strides=1, padding='same', use_bias=False))
+    self.model.add(layers.Conv2DTranspose(3, (5, 5), strides=2, padding='same', use_bias=False))
     self.model.add(layers.Activation(activation='tanh'))
   def call(self, x):
     return self.model(x)
@@ -45,12 +45,7 @@ class discriminator(tf.keras.Model):
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
     self.model.add(tf.keras.layers.Dropout(0.3))
 
-    self.model.add(tf.keras.layers.Conv2D(256, kernel_size=5, strides=1, padding="same"))
-    self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    self.model.add(tf.keras.layers.Dropout(0.3))
-
-    self.model.add(tf.keras.layers.Conv2D(512, kernel_size=5, strides=1, padding="same"))
+    self.model.add(tf.keras.layers.Conv2D(256, kernel_size=5, strides=2, padding="same"))
     self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
     self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
     self.model.add(tf.keras.layers.Dropout(0.3))

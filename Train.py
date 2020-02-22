@@ -72,5 +72,5 @@ class train_one_epoch():
             #     self.train_generator_step(noise)
             #     pic.add([self.gen_loss.result().numpy(), self.disc_loss.result().numpy()])
             #     pic.save()
-            if (batch + 1) % 100 == 0:
+            if (batch + 1) % 25 == 0:
                 print('epoch: {}, gen loss: {}, disc loss: {}'.format(epoch, self.gen_loss.result(), self.disc_loss.result()))

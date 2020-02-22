@@ -4,7 +4,7 @@ import tensorflow as tf
 from DCGAN import get_gan
 from show_pic import draw
 from Train import train_one_epoch
-from mnist import mnist_dataset
+from oxford_102_flowers import oxford_102_flowers_dataset
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
@@ -14,11 +14,12 @@ root = ubuntu_root
 temp_root = root+'/temp'
 
 def main(continue_train, train_time):
-    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # or any {'0', '1', '2'}
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
     noise_dim = 100
+    batch_size = 52
 
-    generator_model, discriminator_model, model_name = get_gan(noise_shape=[noise_dim, ], img_shape=[28, 28, 1])
-    dataset = mnist_dataset(root, noise_dim)
+    generator_model, discriminator_model, model_name = get_gan(noise_shape=[noise_dim, ], img_shape=[128, 128, 3])
+    dataset = oxford_102_flowers_dataset(root, batch_size)
     model_dataset = model_name + '-' + dataset.name
 
     train_dataset = dataset.get_train_dataset()
@@ -40,7 +41,7 @@ def main(continue_train, train_time):
     train = train_one_epoch(model=[generator_model, discriminator_model], train_dataset=train_dataset,
               optimizers=[generator_optimizer, discriminator_optimizer], metrics=[gen_loss, disc_loss], noise_dim=noise_dim)
 
-    for epoch in range(50):
+    for epoch in range(100):
         train.train(epoch=epoch, pic=pic)
         pic.show()
         if (epoch + 1) % 5 == 0:
