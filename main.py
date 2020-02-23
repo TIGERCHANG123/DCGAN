@@ -4,7 +4,7 @@ import tensorflow as tf
 from DCGAN import get_gan
 from show_pic import draw
 from Train import train_one_epoch
-from cartoon_face import face_dataset
+from oxford_102_64 import oxford_102_flowers_dataset
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
@@ -19,7 +19,7 @@ def main(continue_train, train_time):
     batch_size = 64
 
     generator_model, discriminator_model, model_name = get_gan(noise_shape=100)
-    dataset = face_dataset(root, batch_size)
+    dataset = oxford_102_flowers_dataset(root, batch_size)
     model_dataset = model_name + '-' + dataset.name
 
     train_dataset = dataset.get_train_dataset()
