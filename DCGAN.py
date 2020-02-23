@@ -26,7 +26,7 @@ class discriminator(tf.keras.Model):
     self.middle_layer1 = discriminator_Middle(filters=128, strides=2)
     self.middle_layer2 = discriminator_Middle(filters=256, strides=2)
 
-    self.output_layer = discriminator_Output(filters=256, with_activation=False)
+    self.output_layer = discriminator_Output(with_activation=False)
 
   def call(self, x):
     x = self.input_layer(x)

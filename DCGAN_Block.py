@@ -85,7 +85,7 @@ class discriminator_Output_channel(tf.keras.Model):
       return x
 
 class discriminator_Output(tf.keras.Model):
-  def __init__(self, filters, with_activation):
+  def __init__(self, with_activation):
       super(discriminator_Output, self).__init__()
       self.flatten = tf.keras.layers.Flatten()
       if with_activation:
