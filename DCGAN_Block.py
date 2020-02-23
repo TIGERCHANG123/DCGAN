@@ -70,7 +70,7 @@ class discriminator_Middle(tf.keras.Model):
 
 class discriminator_Output_channel(tf.keras.Model):
   def __init__(self, filters, with_activation):
-      super(discriminator_Output, self).__init__()
+      super(discriminator_Output_channel, self).__init__()
       self.conv = tf.keras.layers.Conv2D(filters, kernel_size=1, strides=1, padding="same")
       self.flatten = tf.keras.layers.Flatten()
       if with_activation:

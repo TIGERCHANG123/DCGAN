@@ -4,7 +4,7 @@ import tensorflow as tf
 from DCGAN import get_gan
 from show_pic import draw
 from Train import train_one_epoch
-from mnist import mnist_dataset
+from cartoon_face import face_dataset
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
@@ -16,16 +16,16 @@ temp_root = root+'/temp'
 def main(continue_train, train_time):
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # or any {'0', '1', '2'}
     noise_dim = 100
-    batch_size = 256
+    batch_size = 64
 
     generator_model, discriminator_model, model_name = get_gan(noise_shape=100)
-    dataset = mnist_dataset(root, batch_size)
+    dataset = face_dataset(root, batch_size)
     model_dataset = model_name + '-' + dataset.name
 
     train_dataset = dataset.get_train_dataset()
     pic = draw(10, temp_root, model_dataset, train_time=train_time)
-    generator_optimizer = tf.keras.optimizers.Adam(2e-4)
-    discriminator_optimizer = tf.keras.optimizers.Adam(2e-4)
+    generator_optimizer = tf.keras.optimizers.Adam(2e-4, beta_1=0.5)
+    discriminator_optimizer = tf.keras.optimizers.Adam(2e-4, beta_1=0.5)
 
     checkpoint_path = temp_root + '/temp_model_save/' + model_dataset
     ckpt = tf.train.Checkpoint(genetator_optimizers=generator_optimizer, discriminator_optimizer=discriminator_optimizer ,
