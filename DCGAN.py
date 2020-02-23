@@ -1,65 +1,48 @@
-import tensorflow as tf
-from tensorflow.keras import layers
+from DCGAN_Block import *
 
 class generator(tf.keras.Model):
-  def __init__(self, noise_shape):
+  def __init__(self):
     super(generator, self).__init__()
-    self.noise_shape = noise_shape
+    self.input_layer = generator_Input(shape=[7, 7, 256])
 
-    self.model = tf.keras.Sequential()
-    self.model.add(layers.Dense(8 * 8 * 512, use_bias=False, input_shape=noise_shape))
-    self.model.add(layers.Reshape((8, 8, 512)))
-    self.model.add(layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.ReLU())
+    self.middle_layer1 = generator_Middle(filters=256, strides=1)
+    self.middle_layer2 = generator_Middle(filters=128, strides=2)
+    self.middle_layer3 = generator_Middle(filters=64, strides=2)
 
-    self.model.add(layers.Conv2DTranspose(256, (5, 5), strides=2, padding='same', use_bias=False))
-    self.model.add(layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.ReLU())
-
-    self.model.add(layers.Conv2DTranspose(128, (5, 5), strides=2, padding='same', use_bias=False))
-    self.model.add(layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.ReLU())
-
-    self.model.add(layers.Conv2DTranspose(64, (5, 5), strides=2, padding='same', use_bias=False))
-    self.model.add(layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.ReLU())
-
-    self.model.add(layers.Conv2DTranspose(3, (5, 5), strides=2, padding='same', use_bias=False))
-    self.model.add(layers.Activation(activation='tanh'))
+    self.output_layer = generator_Output(image_depth=1, strides=1)
   def call(self, x):
-    return self.model(x)
+    x = self.input_layer(x)
+    x = self.middle_layer1(x)
+    x = self.middle_layer2(x)
+    x = self.middle_layer3(x)
+    x = self.output_layer(x)
+    return x
 
 class discriminator(tf.keras.Model):
-  def __init__(self, img_shape):
+  def __init__(self):
     super(discriminator, self).__init__()
-    self.img_shape=img_shape
 
-    self.model = tf.keras.Sequential()
+    self.input_layer = discriminator_Input(filters=64, strides=2)
+    self.middle_layer1 = discriminator_Middle(filters=128, strides=2)
+    self.middle_layer2 = discriminator_Middle(filters=256, strides=2)
 
-    self.model.add(tf.keras.layers.Conv2D(64, kernel_size=5, strides=2, input_shape=self.img_shape, padding="same"))
-    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    self.model.add(tf.keras.layers.Dropout(0.3))
-
-    self.model.add(tf.keras.layers.Conv2D(128, kernel_size=5, strides=2, padding="same"))
-    self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    self.model.add(tf.keras.layers.Dropout(0.3))
-
-    self.model.add(tf.keras.layers.Conv2D(256, kernel_size=5, strides=2, padding="same"))
-    self.model.add(tf.keras.layers.BatchNormalization(momentum=0.9))
-    self.model.add(tf.keras.layers.LeakyReLU(alpha=0.2))
-    self.model.add(tf.keras.layers.Dropout(0.3))
-
-    self.model.add(tf.keras.layers.Conv2D(256, kernel_size=1, strides=1, padding="same"))
-
-    self.model.add(tf.keras.layers.Flatten())
-    self.model.add(tf.keras.layers.Dense(1))
+    self.output_layer = discriminator_Output(filters=256, with_activation=False)
 
   def call(self, x):
-    return self.model(x)
+    x = self.input_layer(x)
+    x = self.middle_layer1(x)
+    x = self.middle_layer2(x)
+    x = self.output_layer(x)
+    return x
 
-def get_gan(noise_shape, img_shape):
-  Generator = generator(noise_shape)
-  Discriminator = discriminator(img_shape)
+def get_gan(noise_shape):
+  Generator = generator()
+  Generator.build(input_shape=(None, noise_shape))
+  Generator.summary()
+  Discriminator = discriminator()
+  Discriminator.build(input_shape=(None, 28, 28, 1))
+  Discriminator.summary()
   gen_name = 'dc_gan'
   return Generator, Discriminator, gen_name
+
+
