@@ -47,17 +47,21 @@ class train_one_epoch():
         self.gen_loss.reset_states()
         self.disc_loss.reset_states()
         k = 0
+        gen_times = 1
+        disc_times = 1
         for (batch, images) in enumerate(self.train_dataset):
-            if k < 2:
+            if k < gen_times:
                 k = k + 1
                 noise = tf.random.normal([images.shape[0], self.noise_dim])
                 self.train_generator_step(noise)
-            else:
-                k = 0
+            elif k < (gen_times + disc_times):
+                k = k+1
                 noise = tf.random.normal([images.shape[0], self.noise_dim])
                 self.train_discriminator_step(noise, images)
                 pic.add([self.gen_loss.result().numpy(), self.disc_loss.result().numpy()])
                 pic.save()
+            else:
+                k = 0
             if (batch + 1) % 100 == 0:
                 print('epoch: {}, gen loss: {}, disc loss: {}, real loss: {}, fake loss{}'
                       .format(epoch, self.gen_loss.result(), self.disc_loss.result(), self.real_loss, self.fake_loss))
