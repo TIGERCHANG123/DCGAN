@@ -4,7 +4,7 @@ import tensorflow as tf
 from DCGAN import get_gan
 from show_pic import draw
 from Train import train_one_epoch
-from oxford_102_64 import oxford_102_flowers_dataset
+from datasets.oxford_102_64 import oxford_102_flowers_dataset
 from tensorflow.compat.v1 import ConfigProto
 from tensorflow.compat.v1 import InteractiveSession
 
