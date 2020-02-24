@@ -49,7 +49,7 @@ class train_one_epoch():
         k = 0
         gen_times = 1
         disc_times = 1
-        for (batch, images) in enumerate(self.train_dataset):
+        for (batch, (images, labels)) in enumerate(self.train_dataset):
             if k < gen_times:
                 k = k + 1
                 noise = tf.random.normal([images.shape[0], self.noise_dim])

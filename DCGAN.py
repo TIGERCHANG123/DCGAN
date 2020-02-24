@@ -3,7 +3,7 @@ from DCGAN_Block import *
 class generator(tf.keras.Model):
   def __init__(self):
     super(generator, self).__init__()
-    self.input_layer = generator_Input(shape=[8, 8, 512])
+    self.input_layer = generator_Input(shape=[4, 4, 512])
 
     self.middle_layer1 = generator_Middle(filters=256, strides=2)
     self.middle_layer2 = generator_Middle(filters=128, strides=2)
@@ -40,7 +40,7 @@ def get_gan(noise_shape):
   Generator.build(input_shape=(None, noise_shape))
   Generator.summary()
   Discriminator = discriminator()
-  Discriminator.build(input_shape=(None, 64, 64, 3))
+  Discriminator.build(input_shape=(None, 32, 32, 3))
   Discriminator.summary()
   gen_name = 'dc_gan'
   return Generator, Discriminator, gen_name
